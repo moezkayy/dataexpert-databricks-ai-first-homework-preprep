@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataExpert.io: Databricks AI Bootcamp — Prereqs for the Lakebase Ticketing App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0f1a;
+    --panel:#111726;
+    --panel-alt:#161e33;
+    --border:#263251;
+    --border-soft:#1b2440;
+    --text:#e7ecf5;
+    --text-muted:#8b96b3;
+    --text-dim:#5a6684;
+    --amber:#f0a94e;
+    --amber-dim:#8a6534;
+    --teal:#57d9c6;
+    --rose:#f0616d;
+    --mono:'IBM Plex Mono', monospace;
+    --sans:'IBM Plex Sans', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--sans);}
+  body{display:flex;min-height:100vh;}
+  ::selection{background:var(--amber);color:#1a1300;}
+  ::-webkit-scrollbar{width:10px;height:10px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--amber-dim);}
+  a{color:var(--teal);}
+
+  #sidebar{
+    width:288px;flex:0 0 288px;background:var(--panel);border-right:1px solid var(--border-soft);
+    display:flex;flex-direction:column;position:sticky;top:0;height:100vh;
+  }
+  .brand{padding:22px 20px 16px;border-bottom:1px solid var(--border-soft);}
+  .brand-mark{font-family:var(--mono);font-weight:700;font-size:15px;letter-spacing:.04em;color:var(--amber);}
+  .brand-mark span{color:var(--text-dim);}
+  .brand-sub{font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-top:4px;letter-spacing:.03em;}
+
+  #nav{flex:1;overflow-y:auto;padding:10px 10px;}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:10px 10px;border-radius:6px;cursor:pointer;border:1px solid transparent;margin-bottom:2px;transition:background .12s, border-color .12s;}
+  .nav-item:hover{background:var(--panel-alt);}
+  .nav-item.active{background:var(--panel-alt);border-color:var(--border);}
+  .nav-num{font-family:var(--mono);font-size:11px;color:var(--text-dim);width:20px;flex:0 0 20px;}
+  .nav-item.active .nav-num{color:var(--amber);}
+  .nav-label{font-family:var(--mono);font-size:12.5px;color:var(--text-muted);flex:1;line-height:1.3;}
+  .nav-item.active .nav-label{color:var(--text);}
+  .nav-status{font-size:13px;flex:0 0 14px;text-align:center;}
+  .status-done{color:var(--teal);}
+  .status-partial{color:var(--amber);}
+  .status-none{color:var(--text-dim);}
+
+  #sidebar-footer{padding:16px 20px;border-top:1px solid var(--border-soft);}
+  .progress-label{font-family:var(--mono);font-size:10.5px;color:var(--text-dim);display:flex;justify-content:space-between;margin-bottom:6px;letter-spacing:.03em;}
+  .progress-track{height:6px;border-radius:3px;background:var(--border-soft);overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--amber-dim),var(--amber));transition:width .3s ease;}
+  .reset-btn{margin-top:12px;font-family:var(--mono);font-size:10.5px;color:var(--text-dim);background:none;border:1px solid var(--border-soft);border-radius:4px;padding:6px 10px;cursor:pointer;width:100%;}
+  .reset-btn:hover{color:var(--rose);border-color:var(--rose);}
+
+  .social-row{display:flex;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border-soft);}
+  .social-link{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--mono);font-size:10.5px;color:var(--text-dim);text-decoration:none;border:1px solid var(--border-soft);border-radius:4px;padding:7px 8px;transition:color .12s, border-color .12s;}
+  .social-link:hover{color:var(--amber);border-color:var(--amber-dim);}
+  .social-link svg{width:13px;height:13px;flex:0 0 auto;}
+  .made-by{margin-top:12px;font-family:var(--mono);font-size:10px;color:var(--text-dim);text-align:center;letter-spacing:.02em;}
+  .made-by a{color:var(--text-dim);text-decoration:none;border-bottom:1px dotted var(--text-dim);}
+  .made-by a:hover{color:var(--amber);border-color:var(--amber-dim);}
+
+  #main{flex:1;min-width:0;padding:36px 48px 80px;max-width:980px;}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;color:var(--amber);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;}
+  h1{font-family:var(--mono);font-size:28px;font-weight:700;margin:0 0 14px;letter-spacing:-.01em;}
+  .lede{font-size:15.5px;color:var(--text-muted);line-height:1.65;max-width:700px;margin-bottom:20px;}
+  .section-title{font-family:var(--mono);font-size:13px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.06em;margin:34px 0 14px;border-bottom:1px solid var(--border-soft);padding-bottom:8px;display:flex;align-items:center;gap:10px;}
+  .section-title .count{color:var(--text-dim);font-weight:400;text-transform:none;letter-spacing:0;}
+
+  .roadmap-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .roadmap-card{background:var(--panel);border:1px solid var(--border-soft);border-left:3px solid var(--border);border-radius:6px;padding:14px 16px;cursor:pointer;transition:border-color .12s, transform .12s;}
+  .roadmap-card:hover{border-left-color:var(--amber);transform:translateX(2px);}
+  .roadmap-card .rc-num{font-family:var(--mono);font-size:11px;color:var(--text-dim);}
+  .roadmap-card .rc-title{font-family:var(--mono);font-size:13.5px;color:var(--text);margin-top:4px;}
+  .roadmap-card .rc-desc{font-size:12.5px;color:var(--text-muted);margin-top:6px;line-height:1.5;}
+
+  .callout{background:var(--panel-alt);border:1px solid var(--border-soft);border-radius:6px;padding:16px 18px;font-size:13.5px;color:var(--text-muted);line-height:1.6;margin:20px 0;}
+  .callout b{color:var(--text);}
+  .callout code, p code, li code, .lesson-body code{font-family:var(--mono);background:var(--bg);border:1px solid var(--border-soft);border-radius:4px;padding:1px 6px;font-size:12.5px;color:var(--teal);}
+
+  /* ---- lesson content ---- */
+  .lesson-wrap{margin-bottom:8px;}
+  .lesson-section{margin-bottom:26px;}
+  .lesson-h{font-family:var(--mono);font-size:14.5px;color:var(--amber);margin-bottom:10px;display:flex;align-items:baseline;gap:8px;}
+  .lesson-h .lh-num{color:var(--text-dim);font-size:12px;}
+  .lesson-body p{font-size:14px;line-height:1.72;color:var(--text-muted);margin:0 0 10px;max-width:720px;}
+  .lesson-body p b{color:var(--text);}
+  .lesson-code{font-family:var(--mono);font-size:12.5px;background:var(--bg);border:1px solid var(--border-soft);border-radius:6px;padding:12px 16px;margin:10px 0;color:var(--teal);white-space:pre-wrap;line-height:1.6;max-width:720px;}
+  .lesson-note{font-family:var(--mono);font-size:12.5px;background:var(--bg);border:1px dashed var(--border);border-radius:6px;padding:10px 14px;margin:8px 0 10px;color:var(--text-dim);white-space:pre-wrap;line-height:1.6;max-width:720px;}
+  .ex-table-wrap{margin:10px 0 14px;overflow-x:auto;}
+  table.ex-table{border-collapse:collapse;font-family:var(--mono);font-size:12px;}
+  table.ex-table th{background:var(--panel-alt);color:var(--amber);text-align:left;padding:7px 12px;border:1px solid var(--border-soft);white-space:nowrap;}
+  table.ex-table td{padding:7px 12px;border:1px solid var(--border-soft);color:var(--text-muted);white-space:nowrap;}
+  .diagram-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:12px 0;}
+  .diag-box{font-family:var(--mono);font-size:12px;border:1px solid var(--border);border-radius:6px;padding:10px 14px;background:var(--panel-alt);}
+  .diag-box .db-title{color:var(--amber);margin-bottom:4px;}
+  .diag-box .db-row{color:var(--text-dim);}
+  .diag-arrow{font-family:var(--mono);color:var(--text-dim);font-size:18px;}
+
+  .begin-quiz-btn{margin:18px 0 8px;}
+
+  /* quiz */
+  .quiz-intro{font-size:14px;color:var(--text-muted);line-height:1.6;margin-bottom:20px;max-width:700px;}
+  .q-card{background:var(--panel);border:1px solid var(--border-soft);border-radius:8px;padding:20px 22px;margin-bottom:16px;}
+  .q-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px;}
+  .q-text{font-size:15px;line-height:1.55;color:var(--text);}
+  .q-tag{font-family:var(--mono);font-size:10px;color:var(--text-dim);border:1px solid var(--border-soft);border-radius:4px;padding:2px 7px;white-space:nowrap;flex:0 0 auto;}
+  .q-code{font-family:var(--mono);font-size:12.5px;background:var(--bg);border:1px solid var(--border-soft);border-radius:6px;padding:10px 14px;margin:10px 0;color:var(--teal);white-space:pre-wrap;line-height:1.5;}
+  .opt-list{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+  .opt{text-align:left;background:var(--panel-alt);border:1px solid var(--border-soft);border-radius:6px;padding:10px 14px;font-size:13.5px;color:var(--text);cursor:pointer;font-family:var(--sans);}
+  .opt:hover:not(.locked){border-color:var(--amber-dim);}
+  .opt.correct{border-color:var(--teal);background:rgba(87,217,198,.08);color:var(--teal);}
+  .opt.wrong{border-color:var(--rose);background:rgba(240,97,109,.08);color:var(--rose);}
+  .opt.locked{cursor:default;opacity:.75;}
+  .opt.locked.dim{opacity:.4;}
+  .fill-row{display:flex;gap:8px;margin-top:10px;}
+  .fill-row input{flex:1;background:var(--bg);border:1px solid var(--border-soft);border-radius:6px;color:var(--text);font-family:var(--mono);font-size:13.5px;padding:9px 12px;}
+  .fill-row input:focus{outline:none;border-color:var(--amber-dim);}
+  .btn{font-family:var(--mono);font-size:12.5px;background:var(--amber);color:#1a1300;border:none;border-radius:6px;padding:9px 16px;cursor:pointer;font-weight:600;white-space:nowrap;}
+  .btn:hover{background:#f5b968;}
+  .btn.secondary{background:none;border:1px solid var(--border-soft);color:var(--text-muted);}
+  .btn.secondary:hover{border-color:var(--text-dim);color:var(--text);}
+  .explain{margin-top:12px;font-size:13px;line-height:1.55;color:var(--text-muted);border-top:1px solid var(--border-soft);padding-top:12px;}
+  .explain b{color:var(--teal);}
+  .explain.wrong-explain b{color:var(--rose);}
+
+  .sql-layout{display:grid;grid-template-columns:230px 1fr;gap:18px;margin-top:10px;}
+  .sql-ex-list{display:flex;flex-direction:column;gap:4px;}
+  .sql-ex-item{font-family:var(--mono);font-size:12px;padding:9px 10px;border-radius:6px;border:1px solid transparent;cursor:pointer;color:var(--text-muted);display:flex;gap:8px;align-items:flex-start;}
+  .sql-ex-item:hover{background:var(--panel-alt);}
+  .sql-ex-item.active{background:var(--panel-alt);border-color:var(--border);color:var(--text);}
+  .schema-box{margin-top:16px;background:var(--panel);border:1px solid var(--border-soft);border-radius:6px;padding:12px 14px;}
+  .schema-box h4{font-family:var(--mono);font-size:11px;color:var(--text-dim);margin:0 0 8px;text-transform:uppercase;letter-spacing:.05em;}
+  .schema-table{font-family:var(--mono);font-size:11px;color:var(--text-muted);margin-bottom:10px;}
+  .schema-table .tname{color:var(--amber);}
+  .schema-table .col{color:var(--text-dim);padding-left:8px;}
+  .schema-table .pk{color:var(--teal);}
+
+  .concept-box{background:var(--panel);border:1px solid var(--border-soft);border-left:3px solid var(--amber-dim);border-radius:6px;padding:14px 16px;margin-bottom:14px;}
+  .concept-box .cb-title{font-family:var(--mono);font-size:12px;color:var(--amber);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;}
+  .concept-box p{font-size:13.5px;line-height:1.6;color:var(--text-muted);margin:0 0 8px;}
+  .concept-box code{font-family:var(--mono);background:var(--bg);border:1px solid var(--border-soft);border-radius:4px;padding:1px 6px;font-size:12.5px;color:var(--teal);}
+
+  .terminal{background:#080b13;border:1px solid var(--border-soft);border-radius:8px;overflow:hidden;}
+  .term-top{background:var(--panel-alt);padding:8px 14px;font-family:var(--mono);font-size:11px;color:var(--text-dim);border-bottom:1px solid var(--border-soft);display:flex;justify-content:space-between;}
+  .term-body{padding:16px;}
+  .prompt-line{font-family:var(--mono);font-size:12.5px;color:var(--teal);margin-bottom:6px;}
+  textarea#sql-input{width:100%;min-height:90px;background:transparent;border:none;color:var(--text);font-family:var(--mono);font-size:13.5px;resize:vertical;outline:none;line-height:1.5;}
+  .term-actions{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+  .term-hint{font-family:var(--mono);font-size:10.5px;color:var(--text-dim);}
+  .result-area{margin-top:14px;border-top:1px solid var(--border-soft);padding-top:14px;}
+  .result-msg{font-family:var(--mono);font-size:12.5px;margin-bottom:10px;}
+  .result-msg.ok{color:var(--teal);}
+  .result-msg.err{color:var(--rose);}
+  .result-msg.pending{color:var(--text-dim);}
+  table.res-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;}
+  table.res-table th{background:var(--panel-alt);color:var(--amber);text-align:left;padding:6px 10px;border:1px solid var(--border-soft);}
+  table.res-table td{padding:6px 10px;border:1px solid var(--border-soft);color:var(--text-muted);}
+  .ex-prompt{font-size:13.5px;color:var(--text);line-height:1.55;margin-bottom:10px;}
+  .ex-hint-box{margin-top:10px;font-size:12.5px;color:var(--text-muted);}
+  .loading-wrap{padding:60px 0;text-align:center;font-family:var(--mono);color:var(--text-dim);font-size:13px;}
+  .score-badge{font-family:var(--mono);font-size:11px;color:var(--text-dim);}
+  .score-badge b{color:var(--amber);}
+
+  @media (max-width: 900px){
+    body{flex-direction:column;}
+    #sidebar{position:relative;width:100%;height:auto;flex:none;}
+    #main{padding:24px 20px 60px;}
+    .roadmap-grid{grid-template-columns:1fr;}
+    .sql-layout{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <div class="brand">
+    <div class="brand-mark">DataExpert<span>:</span>Bootcamp</div>
+    <div class="brand-sub">Databricks AI Bootcamp — prereqs for the Lakebase ticketing app</div>
+  </div>
+  <div id="nav"></div>
+  <div id="sidebar-footer">
+    <div class="progress-label"><span>OVERALL PROGRESS</span><span id="progress-pct">0%</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <button class="reset-btn" id="reset-btn">RESET ALL PROGRESS</button>
+    <div class="social-row">
+      <a class="social-link" href="https://www.linkedin.com/in/moezkayy" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.86 0-2.15 1.45-2.15 2.94v5.66H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+        LinkedIn
+      </a>
+      <a class="social-link" href="https://github.com/moezkayy" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.19c0 4.49 2.87 8.3 6.84 9.65.5.1.68-.22.68-.49 0-.24-.01-1.04-.01-1.89-2.78.51-3.5-.7-3.72-1.34-.13-.33-.68-1.34-1.16-1.62-.4-.22-.97-.75-.01-.77.9-.01 1.54.84 1.76 1.19 1.03 1.75 2.68 1.26 3.34.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.44-2.28 1.16-3.08-.12-.29-.5-1.47.11-3.06 0 0 .95-.31 3.1 1.18a10.6 10.6 0 0 1 5.64 0c2.15-1.49 3.1-1.18 3.1-1.18.61 1.59.23 2.77.11 3.06.72.8 1.16 1.82 1.16 3.08 0 4.41-2.69 5.39-5.25 5.67.42.37.78 1.09.78 2.2 0 1.59-.01 2.87-.01 3.26 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.19C22 6.58 17.52 2 12 2z"/></svg>
+        GitHub
+      </a>
+    </div>
+    <div class="made-by">Built by <a href="https://github.com/moezkayy" target="_blank" rel="noopener noreferrer">Moez Khan</a></div>
+  </div>
+</div>
+
+<div id="main"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
+<script>
+/* =========================================================================
+   DATA: modules, lessons, quiz questions, sql exercises
+   ========================================================================= */
+
+const MODULES = [
+  { id:'m0', num:'00', title:'Roadmap', kind:'intro' },
+  { id:'m1', num:'01', title:'Relational DB & SQL', kind:'quiz' },
+  { id:'m2', num:'02', title:'SQL Console (hands-on)', kind:'sql' },
+  { id:'m3', num:'03', title:'Python Fundamentals', kind:'quiz' },
+  { id:'m4', num:'04', title:'HTTP & APIs', kind:'quiz' },
+  { id:'m5', num:'05', title:'FastAPI & Backends', kind:'quiz' },
+  { id:'m6', num:'06', title:'DB Connections & Safety', kind:'quiz' },
+  { id:'m7', num:'07', title:'Frontend Basics', kind:'quiz' },
+  { id:'m8', num:'08', title:'Secrets, Git & Packaging', kind:'quiz' },
+  { id:'m9', num:'09', title:'Databricks & Lakebase', kind:'quiz' },
+];
+
+/* ---------------- LESSONS ---------------- */
+const LESSONS = {
+m1: [
+  { h:"What is a database, actually?",
+    p:[
+      "Strip away the jargon: a database is just a place that stores information reliably, so many people or programs can read and write it at the same time without stepping on each other.",
+      "Compare it to a spreadsheet emailed around a team — anyone can overwrite anyone else's changes, and there's no single 'truth'. A database is instead an always-on service that everyone talks to directly. It enforces rules about what can be stored (a status can't be a random typo, a ticket can't disappear mid-update) and guarantees that once something is saved, it stays saved."
+    ]},
+  { h:"How do you recognize a table?",
+    p:[
+      "Say someone hands you this pile of information about support tickets, completely unstructured:",
+    ],
+    note:"\"Login page throws 500 error, opened by grace.liu, status open, opened July 1.\"\n\"omar.said asked for a dark mode toggle, this one's in progress.\"\n\"CSV export bug, reported by grace.liu on June 28th, already resolved.\"",
+    p2:[
+      "That's readable by a human, but useless to a program — every entry describes different fields in a different order. A <b>table</b> fixes this by forcing every record into the exact same shape: the same columns, in the same order, for every single row. Here's that same information turned into a table:"
+    ],
+    table:{cols:["ticket_id","title","status","created_by","created_at"],
+      rows:[["1","Login page throws 500 error","open","grace.liu","2026-07-01"],
+            ["2","Add dark mode toggle","in_progress","omar.said","2026-07-02"],
+            ["3","Export to CSV missing headers","resolved","grace.liu","2026-06-28"]]},
+    p3:[
+      "Two things tell you you're looking at a table: <b>(1)</b> every row has exactly the same columns — you'll never find a row with an extra or missing field, and <b>(2)</b> each column holds one consistent kind of value all the way down — <code>status</code> is always a short status word, <code>created_at</code> is always a date. If data doesn't have that regularity yet, it isn't a table — it still needs to be modeled into one."
+    ]},
+  { h:"Rows and columns",
+    p:[
+      "A <b>row</b> is one record — one specific ticket. A <b>column</b> is one attribute that every row shares — every ticket has a title, so <code>title</code> is a column; every ticket has a status, so <code>status</code> is a column.",
+      "Read the table above sideways: reading across a row gives you everything about one ticket. Reading down a column gives you the same single fact (e.g. every ticket's status) across all tickets. That second view is exactly what a query like 'show me all open tickets' needs."
+    ]},
+  { h:"Primary keys — the ID that's never repeated",
+    p:[
+      "Notice <code>ticket_id</code> in the table: 1, 2, 3. Two tickets could easily have the same title ('Bug report') or the same status ('open') — but no two rows are ever allowed to share the same <code>ticket_id</code>, and it can never be empty.",
+      "That column is the table's <b>primary key</b>: a value that uniquely identifies one specific row, and only that row. It's what lets you say 'update ticket 3' and know with certainty exactly which record you mean, even if ten other tickets have a similar title."
+    ]},
+  { h:"Foreign keys — how two tables reference each other",
+    p:[
+      "Your homework has a second table, <code>ticket_messages</code>, holding the conversation on each ticket. Instead of copying a ticket's full title into every message row (wasteful, and it'd go stale if the title changed), each message just stores which ticket it belongs to — its <code>ticket_id</code>."
+    ],
+    diagram:{
+      left:{title:"tickets", rows:["ticket_id (PK)","title","status"]},
+      right:{title:"ticket_messages", rows:["message_id (PK)","ticket_id (FK)","message_text"]}
+    },
+    p3:[
+      "That <code>ticket_id</code> column inside <code>ticket_messages</code> is a <b>foreign key</b> — a column whose values must match a primary key over in another table. The database itself enforces this: you physically cannot insert a message for ticket_id 999 if no ticket 999 exists. That's what 'the messages table references the tickets table' means."
+    ]},
+  { h:"Reading data: SELECT",
+    p:["The basic shape of every read query is: pick which columns you want, say which table, optionally filter which rows."],
+    code:"SELECT title, status\nFROM tickets;",
+    p3:["This reads as: <b>SELECT</b> (give me these columns) <b>title, status</b> <b>FROM</b> (out of this table) <b>tickets</b>. Use <code>SELECT *</code> to mean 'every column' instead of naming them one by one."]},
+  { h:"Filtering rows: WHERE",
+    p:["To narrow down which rows come back, add a WHERE clause with a condition:"],
+    code:"SELECT *\nFROM tickets\nWHERE status = 'open';",
+    p3:["Only rows where the condition is true are returned — everything else is left out. You can combine conditions with <code>AND</code> / <code>OR</code>, e.g. <code>WHERE status = 'open' AND created_by = 'grace.liu'</code>."]},
+  { h:"Combining tables: JOIN",
+    p:["To see a ticket's title next to its messages, you need rows from both tables stitched together on the column they share:"],
+    code:"SELECT tickets.title, ticket_messages.message_text\nFROM tickets\nJOIN ticket_messages\n  ON tickets.ticket_id = ticket_messages.ticket_id;",
+    p3:["For every message, the database finds the ticket whose <code>ticket_id</code> matches, and glues that ticket's <code>title</code> onto the message's row in the result. This is the foreign-key relationship being put to work."]},
+],
+m3: [
+  { h:"Variables and values",
+    p:["A variable is a name that points to a value. Python figures out the type from what you assign — you don't declare it up front."],
+    code:"status = \"open\"      # a string (text)\nmessage_count = 2    # an int (whole number)\nis_urgent = False    # a bool (True/False)"},
+  { h:"Collections: lists and dicts",
+    p:["A <b>list</b> is an ordered sequence of values. A <b>dict</b> maps keys to values — this is what a row from your database, or a JSON API response, looks like once it's in Python."],
+    code:"statuses = [\"open\", \"in_progress\", \"resolved\"]\n\nticket = {\"ticket_id\": 1, \"title\": \"Login bug\", \"status\": \"open\"}\nprint(ticket[\"status\"])   # -> open"},
+  { h:"Functions",
+    p:["A function packages up reusable logic. It optionally takes inputs (parameters) and optionally sends back an output (return)."],
+    code:"def is_open(ticket):\n    return ticket[\"status\"] == \"open\"\n\nis_open(ticket)   # -> True"},
+  { h:"Control flow: if/else and loops",
+    p:["<code>if/else</code> branches your logic based on a condition. A <code>for</code> loop repeats code once per item in a collection — exactly what you'll do to render a list of tickets."],
+    code:"for t in tickets:\n    if t[\"status\"] == \"open\":\n        print(t[\"title\"])"},
+  { h:"Handling errors: try/except",
+    p:["Things fail — a database might be unreachable, a value might be missing. Wrapping risky code in <code>try/except</code> lets you catch the failure and respond instead of crashing the whole app."],
+    code:"try:\n    result = db.execute(query)\nexcept Exception as e:\n    print(\"Query failed:\", e)"},
+  { h:"Environments and packages",
+    p:["A <b>virtual environment</b> (venv) gives each project its own private set of installed packages, so Project A's FastAPI version can't clash with Project B's. You install packages into it with <code>pip install</code>, and read secrets out of it at runtime with <code>os.environ</code> — never hardcoded."],
+    code:"python -m venv venv\nsource venv/bin/activate\npip install fastapi psycopg2\n\nimport os\npassword = os.environ.get(\"DB_PASSWORD\")"},
+],
+m4: [
+  { h:"The client-server model",
+    p:["Your frontend (browser or Streamlit page) is the <b>client</b>. Your backend (FastAPI app) is the <b>server</b>. The client never touches the database directly — it always asks the server, and the server is the only thing that talks to Postgres/Lakebase. This is why you need a backend at all, not just a page that reads a database file."]},
+  { h:"What HTTP actually is",
+    p:["HTTP is the language client and server speak. Every exchange is a <b>request</b> (client asks for something, at a URL, with a method describing intent) and a <b>response</b> (server answers, with a status code and usually a body of data)."],
+    code:"REQUEST:  POST /tickets   body: {\"title\": \"New bug\", ...}\nRESPONSE: 201 Created     body: {\"ticket_id\": 5, ...}"},
+  { h:"HTTP methods — the verb of the request",
+    table:{cols:["Method","Meaning","Example in your app"],
+      rows:[["GET","Read data, no side effects","List all tickets"],
+            ["POST","Create something new","Create a ticket"],
+            ["PUT / PATCH","Update something existing","Change a ticket's status"],
+            ["DELETE","Remove something","Delete a ticket"]]}},
+  { h:"Status codes — the outcome of the request",
+    table:{cols:["Range","Meaning","Example"],
+      rows:[["2xx","Success","200 OK, 201 Created"],
+            ["4xx","Client made a mistake","404 Not Found, 400 Bad Request"],
+            ["5xx","Server failed","500 Internal Server Error"]]}},
+  { h:"JSON — the shared data format",
+    p:["JSON is just a text format for structured data that both Python (dicts) and JavaScript (objects) can read natively. It's how the request body and response body are almost always shaped in a modern API."],
+    code:"{\n  \"ticket_id\": 1,\n  \"title\": \"Login bug\",\n  \"status\": \"open\"\n}"},
+],
+m5: [
+  { h:"What FastAPI is for",
+    p:["FastAPI is a Python framework for writing the server side of the client-server model above: you define <b>routes</b> (a URL + method combination) and Python functions that run when a request hits them."]},
+  { h:"Defining a route",
+    p:["A decorator ties a URL and HTTP method to a function. <code>{ticket_id}</code> is a <b>path parameter</b> — FastAPI pulls it straight out of the URL and hands it to your function, already converted to the type you asked for."],
+    code:"@app.get(\"/tickets/{ticket_id}\")\ndef get_ticket(ticket_id: int):\n    return db.fetch_ticket(ticket_id)"},
+  { h:"Validating input with Pydantic",
+    p:["For a POST/PUT, you need to describe what shape the incoming JSON must have. A Pydantic model does that — and FastAPI automatically rejects malformed requests before your function even runs."],
+    code:"from pydantic import BaseModel\n\nclass TicketCreate(BaseModel):\n    title: str\n    created_by: str\n\n@app.post(\"/tickets\")\ndef create_ticket(payload: TicketCreate):\n    return db.insert_ticket(payload.title, payload.created_by)"},
+  { h:"Auto-generated docs",
+    p:["Every route and Pydantic model you define shows up automatically at <code>/docs</code> as an interactive page — you can test your own endpoints there without building a frontend first."]},
+],
+m6: [
+  { h:"What 'connecting to a database' means",
+    p:["Your backend needs a driver (e.g. <code>psycopg2</code>) and a connection string — host, port, database name, credentials — to open a channel to Postgres. Every query you run goes over that connection."]},
+  { h:"The danger of building SQL from strings",
+    p:["If you paste user input straight into a SQL string, a malicious value can rewrite your query's meaning entirely. This is <b>SQL injection</b> — one of the most common real-world vulnerabilities."],
+    code:"# DANGEROUS — title could contain: '; DROP TABLE tickets; --\ncursor.execute(f\"SELECT * FROM tickets WHERE title='{title}'\")\n\n# SAFE — the driver escapes the value for you\ncursor.execute(\"SELECT * FROM tickets WHERE title=%s\", (title,))"},
+  { h:"Connection pooling",
+    p:["Opening a fresh database connection is slow — it's a full network handshake plus authentication. A <b>connection pool</b> keeps a small set of connections open and hands them out to requests as needed, instead of paying that cost every single time."]},
+  { h:"Transactions and commit",
+    p:["An INSERT/UPDATE isn't always permanent the instant you run it — depending on your driver's settings, you may need to explicitly <code>commit()</code> the transaction, or it can be rolled back and lost."],
+    code:"cursor.execute(\"UPDATE tickets SET status=%s WHERE ticket_id=%s\", (\"resolved\", 4))\nconn.commit()"},
+],
+m7: [
+  { h:"What the frontend's job is",
+    p:["The frontend renders data and captures user actions (clicks, form submissions), then talks to the backend over HTTP to read or change that data. It never touches the database directly."]},
+  { h:"Calling your API from the browser",
+    p:["<code>fetch()</code> sends an HTTP request from JavaScript; <code>.json()</code> parses the response body back into a usable object."],
+    code:"fetch(\"/tickets\")\n  .then(r => r.json())\n  .then(tickets => console.log(tickets));"},
+  { h:"React's model: state drives the UI",
+    p:["React re-renders a component whenever its <b>state</b> changes. You don't manually update the DOM — you update state, and React figures out what needs to redraw."],
+    code:"const [tickets, setTickets] = useState([]);\n\nfetch(\"/tickets\").then(r => r.json()).then(setTickets);\n// whenever setTickets runs, the component re-renders with new data"},
+  { h:"Streamlit's model: rerun the whole script",
+    p:["Streamlit works differently: every interaction reruns your entire Python script top to bottom. <code>st.button(...)</code> returns True only on the specific rerun triggered by that click — there's no separate 'event handler' file to write."]},
+  { h:"Validation is part of the UI, not an afterthought",
+    p:["A form that silently does nothing when you submit an empty title is broken UX. Good forms explain exactly what's wrong and how to fix it — this is one of your homework's bonus challenges."]},
+],
+m8: [
+  { h:"Why secrets can never live in your code",
+    p:["If a database password is typed into a Python file and that file is committed to git, it's in your project's history forever — even if you delete it in a later commit. Public GitHub repos get scraped for exactly this within minutes of being pushed."]},
+  { h:"Environment variables and .env",
+    p:["Instead, secrets are read from the environment at runtime. Locally, a <code>.env</code> file holds them for development — and it must never be committed."],
+    code:"# .env (never committed)\nDB_PASSWORD=xxxxx\n\n# .gitignore\n.env"},
+  { h:"Git basics",
+    p:["<code>git add</code> stages your changes, <code>git commit -m \"...\"</code> saves a snapshot with a message, and this history is what lets you (or anyone) see exactly what changed and when."],
+    code:"git add .\ngit commit -m \"Add ticket status update endpoint\""},
+  { h:"requirements.txt",
+    p:["This file lists your project's exact dependencies, so anyone — including a deployment system — can recreate your environment with one command."],
+    code:"pip install -r requirements.txt"},
+],
+m9: [
+  { h:"OLTP vs OLAP — the core distinction",
+    table:{cols:["","Lakebase (OLTP)","Delta / Unity Catalog (OLAP)"],
+      rows:[["Optimized for","Fast single-row reads/writes","Large batch analytical scans"],
+            ["Typical use","Your app's live ticket data","Dashboards, reports, ML training data"],
+            ["Feels like","Regular Postgres","A data warehouse"]]},
+    p3:["This is the exact distinction your homework's reflection question is asking about."]},
+  { h:"The project hierarchy",
+    p:["Lakebase organizes like: <b>Workspace → Project → Branch → Compute/Database</b>. A branch behaves like a git branch for your database — an isolated, cheap-to-create copy you can experiment in without touching production data."]},
+  { h:"Service principals and auth",
+    p:["A <b>service principal</b> is an identity for an app or service, not a human. When you attach a Lakebase database as a 'resource' to a Databricks App, Databricks automatically creates a service principal and a matching Postgres role, and injects connection details (<code>PGHOST</code>, <code>PGUSER</code>, etc.) as environment variables."]},
+  { h:"Why tokens instead of a fixed password",
+    p:["Lakebase issues short-lived OAuth tokens (around 60 minutes) instead of a static password. Even if one leaks, it's useless soon after — your connection pool just requests a fresh one as needed. You don't have to build this rotation logic by hand when using a Databricks App; attaching the resource sets it up for you."]},
+],
+};
+
+/* ---------------- QUIZZES ---------------- */
+const QUIZZES = {
+  m1: {
+    intro: "Test what you just read. Every question maps directly onto the tickets / ticket_messages schema from your homework.",
+    questions: [
+      { type:'mcq', q:"In the homework schema, ticket_messages.ticket_id references tickets.ticket_id. What is ticket_id called inside ticket_messages?",
+        options:["A primary key","A foreign key","An index","A view"], correct:1,
+        explain:"A <b>foreign key</b> is a column that points to the primary key of another table. It's how you enforce that a message can't exist for a ticket that doesn't exist." },
+      { type:'mcq', q:"Which statement retrieves every column for tickets with status 'open'?",
+        options:["UPDATE tickets WHERE status='open'","SELECT * FROM tickets WHERE status='open'","SELECT * FROM tickets HAVING status='open'","GET tickets WHERE status='open'"], correct:1,
+        explain:"<b>SELECT ... FROM ... WHERE</b> is the read pattern. HAVING filters after grouping, not for simple row filters, and there's no GET keyword in SQL." },
+      { type:'mcq', q:"You want each ticket row shown alongside its messages in one result set. Which clause combines rows from two tables based on a matching column?",
+        options:["UNION","GROUP BY","JOIN","ORDER BY"], correct:2,
+        explain:"<b>JOIN</b> merges rows across tables using a shared key — tickets.ticket_id = ticket_messages.ticket_id in this case." },
+      { type:'mcq', q:"A ticket's primary key must be:",
+        options:["Unique and never null for every row","Any text field","The same across multiple rows","Optional"], correct:0,
+        explain:"A <b>primary key</b> uniquely identifies each row and can never be NULL or duplicated." },
+      { type:'fillblank', q:"Fill in the missing keyword: '____ TABLE tickets (ticket_id SERIAL PRIMARY KEY, title TEXT);' creates a new table.",
+        accepted:["create"], explain:"<b>CREATE TABLE</b> defines a new table's structure before any data exists in it." },
+    ]
+  },
+  m3: {
+    intro: "You don't need to be a Python expert to build this app — but you do need to read and adapt backend code without guessing.",
+    questions: [
+      { type:'mcq', q:"What does this print?\n\nx = {\"status\": \"open\"}\nprint(x[\"status\"])",
+        code:true, options:["status","open","KeyError","None"], correct:1,
+        explain:"<b>x[\"status\"]</b> looks up the value stored under the key \"status\" in the dictionary, which is \"open\"." },
+      { type:'mcq', q:"Which block correctly handles a possible database error without crashing the whole app?",
+        code:true,
+        options:["if error: skip","try:\n    result = db.execute(query)\nexcept Exception as e:\n    print(e)","catch(error) { console.log(error) }","on error goto handler"], correct:1,
+        explain:"Python uses <b>try/except</b> for exception handling. The others are invalid syntax or from a different language." },
+      { type:'mcq', q:"What's the purpose of a Python virtual environment (venv)?",
+        options:["To run Python faster","To isolate a project's installed packages from your system-wide Python","To connect to Postgres","To compile Python to machine code"], correct:1,
+        explain:"A <b>venv</b> gives each project its own private set of installed packages." },
+      { type:'mcq', q:"How do you correctly read a secret value from the environment in Python?",
+        code:true,
+        options:["os.environ.get(\"DB_PASSWORD\")","env.DB_PASSWORD","import DB_PASSWORD","secrets.DB_PASSWORD"], correct:0,
+        explain:"<b>os.environ.get(...)</b> is the standard way to access secrets that were never hardcoded into your source." },
+      { type:'mcq', q:"What will this loop print?\n\nfor msg in [\"a\", \"b\", \"c\"]:\n    print(msg)",
+        code:true, options:["a b c (on one line)","a\\nb\\nc (three lines)","['a','b','c']","Error"], correct:1,
+        explain:"A <b>for</b> loop iterates once per element, and each print() ends with a newline by default." },
+    ]
+  },
+  m4: {
+    intro: "Your app is a web app: the browser (or Streamlit page) talks to a backend over HTTP.",
+    questions: [
+      { type:'mcq', q:"Which HTTP method should you use to create a new support ticket?",
+        options:["GET","POST","DELETE","OPTIONS"], correct:1,
+        explain:"<b>POST</b> is used to create a new resource." },
+      { type:'mcq', q:"A request for /tickets/999 returns status code 404. What does that mean?",
+        options:["Server crashed","The request succeeded but was empty","The requested resource wasn't found","Unauthorized"], correct:2,
+        explain:"<b>404 Not Found</b> means the server understood the request but has nothing at that address." },
+      { type:'mcq', q:"Which status code range generally means 'success'?",
+        options:["1xx","2xx","4xx","5xx"], correct:1,
+        explain:"<b>2xx</b> codes indicate the request succeeded. 4xx are client errors, 5xx are server errors." },
+      { type:'mcq', q:"What format do a FastAPI request body and response typically use?",
+        options:["CSV","XML","JSON","Plain text only"], correct:2,
+        explain:"<b>JSON</b> maps cleanly onto Python dicts and JavaScript objects on either side." },
+      { type:'mcq', q:"Updating an existing ticket's status most naturally uses which method?",
+        options:["POST only, always","PUT or PATCH","GET with a query param","TRACE"], correct:1,
+        explain:"<b>PUT/PATCH</b> are conventional for updating an existing resource." },
+    ]
+  },
+  m5: {
+    intro: "You should be able to read a FastAPI route definition and know exactly what it does.",
+    questions: [
+      { type:'mcq', q:"What does this route do?\n\n@app.get(\"/tickets/{ticket_id}\")\ndef get_ticket(ticket_id: int):\n    return db.fetch_ticket(ticket_id)",
+        code:true,
+        options:["Creates a new ticket","Fetches a single ticket by its ID from the URL path","Deletes all tickets","Lists all tickets"], correct:1,
+        explain:"<b>{ticket_id}</b> is a path parameter — FastAPI extracts it from the URL and passes it into the function." },
+      { type:'mcq', q:"In FastAPI, what's a Pydantic model typically used for?",
+        options:["Styling the frontend","Defining and validating the shape of request/response data","Connecting to Postgres directly","Running background cron jobs"], correct:1,
+        explain:"A <b>Pydantic model</b> declares exactly what fields a request body must have, and FastAPI auto-validates against it." },
+      { type:'mcq', q:"Which decorator would you use for the route that creates a new ticket?",
+        code:true,
+        options:["@app.get(\"/tickets\")","@app.post(\"/tickets\")","@app.delete(\"/tickets\")","@app.options(\"/tickets\")"], correct:1,
+        explain:"Creating a resource maps to <b>@app.post(\"/tickets\")</b>." },
+      { type:'mcq', q:"What does FastAPI generate automatically at /docs?",
+        options:["A changelog","Interactive API documentation you can test requests from","A database backup","Nothing, you must write it yourself"], correct:1,
+        explain:"FastAPI auto-generates an <b>interactive Swagger UI at /docs</b> from your routes and models." },
+    ]
+  },
+  m6: {
+    intro: "Wiring a backend to Postgres safely is where a lot of real bugs and vulnerabilities hide.",
+    questions: [
+      { type:'mcq', q:"Which of these is vulnerable to SQL injection?",
+        code:true,
+        options:["cursor.execute(\"SELECT * FROM tickets WHERE title=%s\", (title,))","cursor.execute(f\"SELECT * FROM tickets WHERE title='{title}'\")","cursor.execute(\"SELECT * FROM tickets\")","session.query(Ticket).filter(Ticket.title==title)"], correct:1,
+        explain:"<b>String-formatting user input directly into SQL</b> lets an attacker inject their own SQL. Always use parameterized queries or an ORM." },
+      { type:'mcq', q:"Why use a connection pool instead of opening a new raw Postgres connection on every request?",
+        options:["It's required by law","Opening connections is slow/expensive; pools reuse existing ones","It disables authentication","It makes queries run in parallel automatically"], correct:1,
+        explain:"Establishing a new connection per request is <b>slow and resource-heavy</b>." },
+      { type:'mcq', q:"What's the risk of forgetting to commit a transaction after an INSERT?",
+        options:["Nothing, inserts are always saved instantly","The data may not actually be persisted to the database","The app will crash immediately","The table gets deleted"], correct:1,
+        explain:"An <b>uncommitted transaction</b> can be rolled back or never written, depending on driver settings." },
+      { type:'mcq', q:"A foreign key constraint (ticket_messages.ticket_id → tickets.ticket_id) mainly protects against:",
+        options:["Slow queries","Inserting a message for a ticket that doesn't exist","Duplicate table names","CSS styling bugs"], correct:1,
+        explain:"The database <b>rejects the insert</b> if the ticket_id doesn't exist in tickets." },
+    ]
+  },
+  m7: {
+    intro: "Even a minimal ticketing UI needs a page that lists data, a form that submits it, and a way to talk to your backend.",
+    questions: [
+      { type:'mcq', q:"In a browser-based frontend, what does fetch('/tickets').then(r => r.json()) do?",
+        code:true,
+        options:["Deletes the tickets table","Makes an HTTP request and parses the JSON response","Creates a new ticket","Refreshes the whole page"], correct:1,
+        explain:"<b>fetch()</b> sends an HTTP request; <b>.json()</b> parses the response body as JSON." },
+      { type:'mcq', q:"In React, what triggers a component to re-render with new data?",
+        options:["Refreshing the browser manually every time","Calling a state setter, e.g. setTickets(newList)","Editing the CSS file","Restarting the dev server"], correct:1,
+        explain:"React re-renders whenever <b>state changes</b> via its setter function." },
+      { type:'mcq', q:"In Streamlit, what makes st.button('Add Message') actually run your code?",
+        options:["It's always running in the background","Streamlit reruns the whole script top-to-bottom, and the button returns True on the run it was clicked","It requires a separate server","Nothing — buttons are display-only"], correct:1,
+        explain:"<b>st.button()</b> returns True only on the specific rerun triggered by that click." },
+      { type:'mcq', q:"Why should a form show a validation error instead of silently failing when a ticket title is empty?",
+        options:["It's not necessary","Users need clear feedback about what went wrong and how to fix it","It slows down the database","It's only needed in production, not for homework"], correct:1,
+        explain:"Good UX means <b>errors explain what happened</b> — also one of your assignment's bonus challenges." },
+    ]
+  },
+  m8: {
+    intro: "The unglamorous but essential habits: keeping credentials out of your code, and keeping your project reproducible.",
+    questions: [
+      { type:'mcq', q:"Where should a database password live in a well-built app?",
+        options:["Hardcoded in the Python file","In an environment variable, read at runtime","In the README","Committed to git in plain text"], correct:1,
+        explain:"Secrets belong in <b>environment variables</b> — never committed to source control." },
+      { type:'mcq', q:"What does adding .env to .gitignore accomplish?",
+        code:true,
+        options:["Deletes the file","Prevents git from tracking/committing that file","Encrypts the file","Makes the app run faster"], correct:1,
+        explain:"<b>.gitignore</b> tells git to ignore that file, so secrets never get committed." },
+      { type:'mcq', q:"What is requirements.txt for?",
+        options:["Homework requirements","Listing the exact Python packages (and versions) your project needs","A database schema file","App configuration for Databricks only"], correct:1,
+        explain:"<b>requirements.txt</b> lets anyone recreate your exact environment." },
+      { type:'mcq', q:"Which git command records a snapshot of your staged changes?",
+        code:true,
+        options:["git push","git commit -m \"message\"","git clone","git status"], correct:1,
+        explain:"<b>git commit</b> saves a snapshot of what you've staged with git add." },
+    ]
+  },
+  m9: {
+    intro: "The Databricks-specific layer — the thinnest part of the stack conceptually, but the least intuitive if you've only used plain Postgres.",
+    questions: [
+      { type:'mcq', q:"What is Lakebase, in one sentence?",
+        options:["A data visualization tool","A fully managed Postgres database built for OLTP (transactional) workloads, running inside Databricks","A replacement for Python","A Databricks notebook type"], correct:1,
+        explain:"<b>Lakebase</b> is real, standard Postgres — managed, with branching and autoscaling — for fast row-level app reads/writes." },
+      { type:'mcq', q:"How is Lakebase different from a Unity Catalog / Delta analytical table?",
+        options:["There's no real difference","Lakebase is optimized for single-row transactional reads/writes (OLTP); Delta tables are optimized for large batch analytical scans (OLAP)","Lakebase can't store data","Delta tables are faster for everything"], correct:1,
+        explain:"This is the <b>OLTP vs OLAP</b> distinction — your homework's reflection question." },
+      { type:'mcq', q:"When you attach a Lakebase database as a 'resource' to a Databricks App, what gets created automatically?",
+        options:["Nothing changes","A service principal (app identity) and a Postgres role tied to it, with connection details injected as env vars","A new git repository","A billing alert"], correct:1,
+        explain:"Databricks provisions an <b>app identity + Postgres role</b> and injects PGHOST/PGUSER/etc." },
+      { type:'mcq', q:"Why does Lakebase use short-lived OAuth tokens instead of a fixed password?",
+        options:["It's slower on purpose","Tokens expire (e.g. every 60 min), which limits damage if one leaks, and avoids hardcoded static secrets","Passwords aren't supported by Postgres at all","It's a Databricks bug"], correct:1,
+        explain:"Short-lived tokens are a <b>security practice</b> — useless soon after they leak." },
+      { type:'mcq', q:"What's the rough hierarchy of a Lakebase database?",
+        options:["Workspace → Project → Branch → Compute/Database","Table → Row → Column → Cell","App → Route → Function → Variable","Cluster → Node → Core → Thread"], correct:0,
+        explain:"<b>Workspace → Project → Branch → Compute</b> — branches behave like git branches for your database." },
+      { type:'mcq', q:"For this homework, which connection option does Databricks recommend by default?",
+        options:["Always build a separate external service principal manually","Use Databricks Apps, which handles app identity, auth, and connections automatically","SSH into the Postgres server directly","Email Databricks support for credentials"], correct:1,
+        explain:"Databricks explicitly recommends <b>Databricks Apps</b> for new apps like this one." },
+    ]
+  },
+};
+
+/* ---------------- SQL exercises (with per-exercise teaching) ---------------- */
+const SCHEMA_SQL = `
+CREATE TABLE tickets (
+  ticket_id INTEGER PRIMARY KEY,
+  title TEXT NOT NULL,
+  status TEXT NOT NULL,
+  created_by TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
+CREATE TABLE ticket_messages (
+  message_id INTEGER PRIMARY KEY,
+  ticket_id INTEGER NOT NULL REFERENCES tickets(ticket_id),
+  message_text TEXT NOT NULL,
+  author TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
+INSERT INTO tickets VALUES
+ (1,'Login page throws 500 error','open','grace.liu','2026-07-01 09:12:00'),
+ (2,'Add dark mode toggle','in_progress','omar.said','2026-07-02 14:30:00'),
+ (3,'Export to CSV is missing headers','resolved','grace.liu','2026-06-28 11:05:00'),
+ (4,'Password reset email delayed','open','priya.nair','2026-07-05 08:47:00');
+INSERT INTO ticket_messages VALUES
+ (1,1,'Getting a 500 when I click login after the last deploy.','grace.liu','2026-07-01 09:12:00'),
+ (2,1,'Can reproduce on staging too. Checking logs now.','dev.support','2026-07-01 10:03:00'),
+ (3,2,'Feature request looks good, starting design.','omar.said','2026-07-02 14:31:00'),
+ (4,2,'Mockups attached, moving to implementation.','dev.support','2026-07-03 09:15:00'),
+ (5,3,'CSV export works but header row is blank.','grace.liu','2026-06-28 11:05:00'),
+ (6,3,'Fixed in latest build, please verify.','dev.support','2026-06-29 16:40:00'),
+ (7,4,'Reset email took 20 minutes to arrive.','priya.nair','2026-07-05 08:47:00'),
+ (8,4,'Looking into the mail queue delay.','dev.support','2026-07-05 09:30:00');
+`;
+
+function execToRows(execResult){
+  if(!execResult || execResult.length===0) return {columns:[],rows:[]};
+  const r = execResult[0];
+  return { columns:r.columns, rows:r.values };
+}
+
+const SQL_EXERCISES = [
+  { id:'e1', title:'Select all tickets',
+    concept:"SELECT * FROM table_name; means 'give me every column, for every row, with no filtering.' The asterisk (*) is shorthand for 'all columns' — you'll use this to sanity-check a table's contents before narrowing down.",
+    prompt:"Write a query that returns every column for every row in the tickets table.",
+    hint:"SELECT * FROM tickets;",
+    check(db){
+      try{
+        const {columns, rows} = execToRows(db.exec(window.__lastUserSQL));
+        return columns.includes('ticket_id') && columns.includes('status') && rows.length===4;
+      }catch(e){ return false; }
+    }
+  },
+  { id:'e2', title:'Filter by status',
+    concept:"WHERE column = 'value' keeps only rows where that condition is true. Text values go in single quotes. This is how your app will implement 'filter tickets by status'.",
+    prompt:"Write a query that returns only tickets where status = 'open'. There should be exactly 2.",
+    hint:"SELECT * FROM tickets WHERE status='open';",
+    check(db){
+      try{
+        const {columns, rows} = execToRows(db.exec(window.__lastUserSQL));
+        const statusIdx = columns.indexOf('status');
+        if(statusIdx===-1 || rows.length!==2) return false;
+        return rows.every(r => r[statusIdx]==='open');
+      }catch(e){ return false; }
+    }
+  },
+  { id:'e3', title:'Sort by newest first',
+    concept:"ORDER BY column DESC sorts rows by that column, largest/latest first. ASC (the default) sorts smallest/earliest first. Dates sort correctly this way because they're stored as comparable text/timestamp values.",
+    prompt:"Return all tickets ordered so the most recently created ticket appears first.",
+    hint:"SELECT * FROM tickets ORDER BY created_at DESC;",
+    check(db){
+      try{
+        const {columns, rows} = execToRows(db.exec(window.__lastUserSQL));
+        const idx = columns.indexOf('created_at');
+        if(idx===-1 || rows.length<2) return false;
+        return rows[0][idx] === '2026-07-05 08:47:00';
+      }catch(e){ return false; }
+    }
+  },
+  { id:'e4', title:'Count messages per ticket',
+    concept:"GROUP BY column collapses rows sharing the same value in that column into one summary row per group — usually paired with an aggregate like COUNT(*), SUM(), or AVG(). Here, grouping ticket_messages by ticket_id gives you one row per ticket, with a count of its messages.",
+    prompt:"Return each ticket_id from ticket_messages alongside a count of how many messages it has.",
+    hint:"SELECT ticket_id, COUNT(*) FROM ticket_messages GROUP BY ticket_id;",
+    check(db){
+      try{
+        const {columns, rows} = execToRows(db.exec(window.__lastUserSQL));
+        if(rows.length!==4) return false;
+        const tIdx = columns.findIndex(c=>c.toLowerCase().includes('ticket_id'));
+        const cIdx = columns.findIndex(c=> c!==columns[tIdx]);
+        if(tIdx===-1||cIdx===-1) return false;
+        return rows.every(r => Number(r[cIdx])===2);
+      }catch(e){ return false; }
+    }
+  },
+  { id:'e5', title:'Join tickets with their messages',
+    concept:"JOIN table_b ON table_a.key = table_b.key stitches rows from two tables together wherever the key columns match. Every message row gets paired with its ticket row, so you can pull columns from both in one query.",
+    prompt:"Return each ticket's title alongside the message_text of its messages, joining the two tables. You should get 8 rows.",
+    hint:"SELECT tickets.title, ticket_messages.message_text\nFROM tickets\nJOIN ticket_messages ON tickets.ticket_id = ticket_messages.ticket_id;",
+    check(db){
+      try{
+        const {columns, rows} = execToRows(db.exec(window.__lastUserSQL));
+        return rows.length===8 && columns.length>=2;
+      }catch(e){ return false; }
+    }
+  },
+  { id:'e6', title:'Insert a new ticket',
+    concept:"INSERT INTO table VALUES (...) adds a new row. Values must be given in the exact same order as the table's columns were defined, and text values need quotes.",
+    prompt:"Insert a 5th ticket with ticket_id=5, any title, status='open', created_by='you', created_at='2026-08-07 10:00:00'.",
+    hint:"INSERT INTO tickets VALUES (5,'New issue title','open','you','2026-08-07 10:00:00');",
+    check(db){
+      try{
+        db.exec(window.__lastUserSQL);
+        const {rows} = execToRows(db.exec("SELECT * FROM tickets WHERE ticket_id=5"));
+        return rows.length===1;
+      }catch(e){ return false; }
+    }
+  },
+  { id:'e7', title:"Update a ticket's status",
+    concept:"UPDATE table SET column = value WHERE condition changes existing rows matching the condition. Leaving off the WHERE clause would update every single row in the table — always double-check it before running an UPDATE.",
+    prompt:"Update ticket_id=4 so its status becomes 'resolved'.",
+    hint:"UPDATE tickets SET status='resolved' WHERE ticket_id=4;",
+    check(db){
+      try{
+        db.exec(window.__lastUserSQL);
+        const {columns, rows} = execToRows(db.exec("SELECT status FROM tickets WHERE ticket_id=4"));
+        return rows.length===1 && rows[0][columns.indexOf('status')]==='resolved';
+      }catch(e){ return false; }
+    }
+  },
+  { id:'e8', title:'Add a message to an existing ticket',
+    concept:"Same INSERT pattern as before, applied to the child table — this is what your app's 'add message' feature does under the hood, once a ticket already exists.",
+    prompt:"Insert a new message (message_id=9) into ticket_messages for ticket_id=2, with any message_text, author='you', created_at='2026-08-07 10:05:00'.",
+    hint:"INSERT INTO ticket_messages VALUES (9,2,'Following up on this.','you','2026-08-07 10:05:00');",
+    check(db){
+      try{
+        db.exec(window.__lastUserSQL);
+        const {rows} = execToRows(db.exec("SELECT * FROM ticket_messages WHERE ticket_id=2"));
+        return rows.length===3;
+      }catch(e){ return false; }
+    }
+  },
+];
+
+/* =========================================================================
+   STATE
+   ========================================================================= */
+const state = {
+  active: 'm0',
+  quizProgress: {},
+  quizStarted: {},   // m1 -> bool, whether "begin quiz" was clicked
+  sqlProgress: { activeExercise: 0, completed: new Set() },
+  db: null,
+  sqlReady: false,
+};
+MODULES.forEach(m=>{
+  if(m.kind==='quiz'){ state.quizProgress[m.id] = { answered:new Set(), correct:new Set() }; state.quizStarted[m.id]=false; }
+});
+
+/* =========================================================================
+   RENDER: sidebar
+   ========================================================================= */
+function moduleStatus(mod){
+  if(mod.kind==='intro') return 'none';
+  if(mod.kind==='quiz'){
+    const p = state.quizProgress[mod.id];
+    const total = QUIZZES[mod.id].questions.length;
+    if(p.answered.size===0) return 'none';
+    if(p.answered.size<total) return 'partial';
+    return 'done';
+  }
+  if(mod.kind==='sql'){
+    if(state.sqlProgress.completed.size===0) return 'none';
+    if(state.sqlProgress.completed.size<SQL_EXERCISES.length) return 'partial';
+    return 'done';
+  }
+}
+
+function renderSidebar(){
+  const nav = document.getElementById('nav');
+  nav.innerHTML = '';
+  MODULES.forEach(mod=>{
+    const item = document.createElement('div');
+    item.className = 'nav-item' + (state.active===mod.id ? ' active':'');
+    const status = moduleStatus(mod);
+    const statusChar = status==='done' ? '●' : status==='partial' ? '◐' : '○';
+    const statusClass = status==='done' ? 'status-done' : status==='partial' ? 'status-partial' : 'status-none';
+    item.innerHTML = `
+      <span class="nav-num">${mod.num}</span>
+      <span class="nav-label">${mod.title}</span>
+      <span class="nav-status ${statusClass}">${statusChar}</span>
+    `;
+    item.onclick = ()=>{ state.active = mod.id; renderAll(); window.scrollTo(0,0); };
+    nav.appendChild(item);
+  });
+
+  let totalQ=0, doneQ=0;
+  MODULES.forEach(m=>{
+    if(m.kind==='quiz'){ totalQ += QUIZZES[m.id].questions.length; doneQ += state.quizProgress[m.id].answered.size; }
+    if(m.kind==='sql'){ totalQ += SQL_EXERCISES.length; doneQ += state.sqlProgress.completed.size; }
+  });
+  const pct = totalQ===0 ? 0 : Math.round((doneQ/totalQ)*100);
+  document.getElementById('progress-pct').textContent = pct+'%';
+  document.getElementById('progress-fill').style.width = pct+'%';
+}
+
+/* =========================================================================
+   LESSON RENDERING (shared)
+   ========================================================================= */
+function renderLessonSections(sections){
+  return sections.map((s, i)=>{
+    let html = `<div class="lesson-section"><div class="lesson-h"><span class="lh-num">${String(i+1).padStart(2,'0')}</span>${escapeHtml(s.h)}</div><div class="lesson-body">`;
+    (s.p||[]).forEach(par=>{ html += `<p>${par}</p>`; });
+    if(s.note){ html += `<div class="lesson-note">${escapeHtml(s.note)}</div>`; }
+    (s.p2||[]).forEach(par=>{ html += `<p>${par}</p>`; });
+    if(s.table){
+      html += `<div class="ex-table-wrap"><table class="ex-table"><thead><tr>${s.table.cols.map(c=>`<th>${escapeHtml(c)}</th>`).join('')}</tr></thead><tbody>`;
+      s.table.rows.forEach(r=>{ html += `<tr>${r.map(v=>`<td>${escapeHtml(v)}</td>`).join('')}</tr>`; });
+      html += `</tbody></table></div>`;
+    }
+    if(s.diagram){
+      html += `<div class="diagram-row">
+        <div class="diag-box"><div class="db-title">${escapeHtml(s.diagram.left.title)}</div>${s.diagram.left.rows.map(r=>`<div class="db-row">${escapeHtml(r)}</div>`).join('')}</div>
+        <div class="diag-arrow">references →</div>
+        <div class="diag-box"><div class="db-title">${escapeHtml(s.diagram.right.title)}</div>${s.diagram.right.rows.map(r=>`<div class="db-row">${escapeHtml(r)}</div>`).join('')}</div>
+      </div>`;
+    }
+    if(s.code){ html += `<div class="lesson-code">${escapeHtml(s.code)}</div>`; }
+    (s.p3||[]).forEach(par=>{ html += `<p>${par}</p>`; });
+    html += `</div></div>`;
+    return html;
+  }).join('');
+}
+
+/* =========================================================================
+   RENDER: main content
+   ========================================================================= */
+function renderMain(){
+  const main = document.getElementById('main');
+  const mod = MODULES.find(m=>m.id===state.active);
+  if(mod.kind==='intro'){ main.innerHTML = introHTML(); attachIntroHandlers(); return; }
+  if(mod.kind==='quiz'){ main.innerHTML = quizHTML(mod); attachQuizHandlers(mod); return; }
+  if(mod.kind==='sql'){ main.innerHTML = sqlHTML(); attachSqlHandlers(); return; }
+}
+
+function introHTML(){
+  const descMap = {
+    m1:'What a table, row, column, and key actually are — then SELECT, WHERE, and JOIN.',
+    m2:'A real, live SQL database in your browser — run actual queries against the ticket schema.',
+    m3:'Just enough Python to read and write FastAPI route logic confidently.',
+    m4:'HTTP methods, status codes, JSON — the language your frontend and backend speak.',
+    m5:'Reading and writing FastAPI routes and Pydantic models.',
+    m6:'Parameterized queries, connection pooling, and why raw string SQL is dangerous.',
+    m7:'What actually happens when a button click ends up as data in your database.',
+    m8:'Environment variables, .gitignore, requirements.txt — keeping the project clean and safe.',
+    m9:'Lakebase, service principals, and OAuth tokens — the Databricks-specific glue.',
+  };
+  const cards = MODULES.filter(m=>m.kind!=='intro').map(m=>{
+    return `<div class="roadmap-card" data-goto="${m.id}">
+      <div class="rc-num">${m.num}</div>
+      <div class="rc-title">${m.title}</div>
+      <div class="rc-desc">${descMap[m.id]}</div>
+    </div>`;
+  }).join('');
+
+  return `
+    <div class="eyebrow">Prep Track</div>
+    <h1>Learn it, then prove it.</h1>
+    <p class="lede">Every module teaches the concept first — from zero, with worked examples — then tests you on it. Nine modules, ordered by dependency: the first eight build a ticket-tracking CRUD app against plain Postgres. The last is the Databricks-specific wrapper around it.</p>
+    <div class="callout">
+      <b>How this maps to your homework:</b> the tickets / ticket_messages schema, status filtering, joins, inserts, and updates taught in modules 01–02 are the <em>exact</em> schema and operations your app needs to support.
+    </div>
+    <div class="section-title">Modules</div>
+    <div class="roadmap-grid">${cards}</div>
+  `;
+}
+function attachIntroHandlers(){
+  document.querySelectorAll('.roadmap-card').forEach(c=>{
+    c.onclick = ()=>{ state.active = c.dataset.goto; renderAll(); window.scrollTo(0,0); };
+  });
+}
+
+/* ---------- quiz rendering (lesson + quiz) ---------- */
+function quizHTML(mod){
+  const data = QUIZZES[mod.id];
+  const lessons = LESSONS[mod.id] || [];
+  const started = state.quizStarted[mod.id];
+  const p = state.quizProgress[mod.id];
+
+  const lessonHtml = `
+    <div class="section-title">Lesson <span class="count">— read this first</span></div>
+    <div class="lesson-wrap">${renderLessonSections(lessons)}</div>
+  `;
+
+  if(!started){
+    return `
+      <div class="eyebrow">Module ${mod.num}</div>
+      <h1>${mod.title}</h1>
+      ${lessonHtml}
+      <div class="begin-quiz-btn"><button class="btn" id="begin-quiz-btn">Start the quiz ▸</button></div>
+    `;
+  }
+
+  const qcards = data.questions.map((q, i)=>{
+    const answered = p.answered.has(i);
+    const wasCorrect = p.correct.has(i);
+    const tag = q.code ? '<span class="q-tag">CODE</span>' : '<span class="q-tag">CONCEPT</span>';
+    let body = '';
+    if(q.type==='mcq'){
+      const opts = q.options.map((opt, oi)=>{
+        let cls='opt';
+        if(answered){
+          cls+=' locked';
+          if(oi===q.correct) cls+=' correct';
+          else if(p.selected && p.selected[i]===oi) cls+=' wrong';
+          else cls+=' dim';
+        }
+        return `<button class="${cls}" data-mod="${mod.id}" data-q="${i}" data-opt="${oi}" ${answered?'disabled':''}>${escapeHtml(opt)}</button>`;
+      }).join('');
+      body = `<div class="opt-list">${opts}</div>`;
+    } else if(q.type==='fillblank'){
+      body = `<div class="fill-row">
+        <input type="text" id="fill-${mod.id}-${i}" placeholder="Type your answer" ${answered?'disabled':''} value="${answered&&p.selected&&p.selected[i]!==undefined?escapeHtml(p.selected[i]):''}">
+        <button class="btn" data-mod="${mod.id}" data-q="${i}" data-fillcheck="1" ${answered?'disabled':''}>Check</button>
+      </div>`;
+    }
+    const explainBlock = answered ? `<div class="explain ${wasCorrect?'':'wrong-explain'}">${wasCorrect?'<b>Correct.</b> ':'<b>Not quite.</b> '}${q.explain}</div>` : '';
+    const qTextHtml = q.code ? `<div class="q-text">${escapeHtml(q.q.split('\n')[0])}</div><div class="q-code">${escapeHtml(q.q.split('\n').slice(1).join('\n'))}</div>`
+                              : `<div class="q-text">${escapeHtml(q.q)}</div>`;
+    return `<div class="q-card">
+      <div class="q-head">${qTextHtml}${tag}</div>
+      ${body}
+      ${explainBlock}
+    </div>`;
+  }).join('');
+
+  const scoreText = `<span class="score-badge">${p.answered.size}/${data.questions.length} answered · <b>${p.correct.size}</b> correct</span>`;
+
+  return `
+    <div class="eyebrow">Module ${mod.num}</div>
+    <h1>${mod.title}</h1>
+    <div class="callout" style="cursor:pointer;" id="reopen-lesson">↑ Re-read the lesson for this module</div>
+    <div class="section-title">Quiz <span class="count">${scoreText}</span></div>
+    ${qcards}
+  `;
+}
+
+function attachQuizHandlers(mod){
+  const beginBtn = document.getElementById('begin-quiz-btn');
+  if(beginBtn){ beginBtn.onclick = ()=>{ state.quizStarted[mod.id]=true; renderAll(); window.scrollTo(0,0); }; }
+
+  const reopen = document.getElementById('reopen-lesson');
+  if(reopen){ reopen.onclick = ()=>{ state.quizStarted[mod.id]=false; renderAll(); window.scrollTo(0,0); }; }
+
+  document.querySelectorAll('.opt[data-mod]').forEach(btn=>{
+    btn.onclick = ()=>{
+      const mId = btn.dataset.mod, qi = Number(btn.dataset.q), oi = Number(btn.dataset.opt);
+      answerMcq(mId, qi, oi);
+    };
+  });
+  document.querySelectorAll('[data-fillcheck]').forEach(btn=>{
+    btn.onclick = ()=>{
+      const mId = btn.dataset.mod, qi = Number(btn.dataset.q);
+      const input = document.getElementById(`fill-${mId}-${qi}`);
+      answerFill(mId, qi, input.value);
+    };
+  });
+}
+
+function answerMcq(mId, qi, oi){
+  const p = state.quizProgress[mId];
+  if(p.answered.has(qi)) return;
+  const q = QUIZZES[mId].questions[qi];
+  p.answered.add(qi);
+  if(!p.selected) p.selected = {};
+  p.selected[qi] = oi;
+  if(oi===q.correct) p.correct.add(qi);
+  renderAll();
+}
+function answerFill(mId, qi, value){
+  const p = state.quizProgress[mId];
+  if(p.answered.has(qi)) return;
+  const q = QUIZZES[mId].questions[qi];
+  p.answered.add(qi);
+  if(!p.selected) p.selected = {};
+  p.selected[qi] = value;
+  const norm = (value||'').trim().toLowerCase();
+  if(q.accepted.some(a=>norm.includes(a))) p.correct.add(qi);
+  renderAll();
+}
+
+/* ---------- sql console rendering ---------- */
+function sqlHTML(){
+  if(!state.sqlReady){
+    return `
+      <div class="eyebrow">Module 02</div>
+      <h1>SQL Console (hands-on)</h1>
+      <div class="loading-wrap">▸ initializing in-browser SQL engine…</div>
+    `;
+  }
+  const exList = SQL_EXERCISES.map((ex, i)=>{
+    const done = state.sqlProgress.completed.has(i);
+    const active = state.sqlProgress.activeExercise===i;
+    return `<div class="sql-ex-item ${active?'active':''}" data-idx="${i}">
+      <span>${done?'●':'○'}</span><span>${i+1}. ${ex.title}</span>
+    </div>`;
+  }).join('');
+
+  const current = SQL_EXERCISES[state.sqlProgress.activeExercise];
+  const doneCount = state.sqlProgress.completed.size;
+
+  return `
+    <div class="eyebrow">Module 02 · Live database</div>
+    <h1>SQL Console</h1>
+    <p class="lede">A real SQL engine running in your browser, pre-loaded with the exact <code>tickets</code> / <code>ticket_messages</code> schema and sample data your homework requires. Each exercise teaches the syntax first, then you write and run the real query.</p>
+    <div style="margin-bottom:10px;"><span class="score-badge">${doneCount}/${SQL_EXERCISES.length} exercises passed</span></div>
+
+    <div class="sql-layout">
+      <div>
+        <div class="sql-ex-list">${exList}</div>
+        <div class="schema-box">
+          <h4>Schema</h4>
+          <div class="schema-table">
+            <div class="tname">tickets</div>
+            <div class="col pk">ticket_id (PK)</div>
+            <div class="col">title, status</div>
+            <div class="col">created_by, created_at</div>
+          </div>
+          <div class="schema-table">
+            <div class="tname">ticket_messages</div>
+            <div class="col pk">message_id (PK)</div>
+            <div class="col">ticket_id (FK → tickets)</div>
+            <div class="col">message_text, author, created_at</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="concept-box">
+          <div class="cb-title">Concept</div>
+          <p>${current.concept}</p>
+        </div>
+        <div class="ex-prompt"><b>${current.title}.</b> ${current.prompt}</div>
+        <div class="terminal">
+          <div class="term-top"><span>ticketsdb=&gt; console</span><span>Ctrl/Cmd + Enter to run</span></div>
+          <div class="term-body">
+            <div class="prompt-line">ticketsdb=&gt;</div>
+            <textarea id="sql-input" spellcheck="false" placeholder="Write your SQL here...">${(state.sqlProgress.draft && state.sqlProgress.draft[state.sqlProgress.activeExercise]) || ''}</textarea>
+            <div class="term-actions">
+              <span class="term-hint" id="hint-toggle" style="cursor:pointer;">show hint ▾</span>
+              <button class="btn" id="run-sql-btn">Run query ▸</button>
+            </div>
+            <div class="ex-hint-box" id="hint-box" style="display:none;">${escapeHtml(current.hint)}</div>
+          </div>
+          <div class="result-area" id="result-area">
+            <div class="result-msg pending" id="result-msg">Run a query to see results here.</div>
+            <div id="result-table"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function attachSqlHandlers(){
+  if(!state.sqlReady) return;
+
+  document.querySelectorAll('.sql-ex-item').forEach(item=>{
+    item.onclick = ()=>{
+      state.sqlProgress.activeExercise = Number(item.dataset.idx);
+      renderAll();
+    };
+  });
+
+  const hintToggle = document.getElementById('hint-toggle');
+  const hintBox = document.getElementById('hint-box');
+  let hintShown = false;
+  hintToggle.onclick = ()=>{
+    hintShown = !hintShown;
+    hintBox.style.display = hintShown ? 'block' : 'none';
+    hintToggle.textContent = hintShown ? 'hide hint ▴' : 'show hint ▾';
+  };
+
+  const runBtn = document.getElementById('run-sql-btn');
+  const input = document.getElementById('sql-input');
+  input.addEventListener('keydown', (e)=>{
+    if((e.metaKey||e.ctrlKey) && e.key==='Enter'){ e.preventDefault(); runQuery(); }
+  });
+  input.addEventListener('input', ()=>{
+    if(!state.sqlProgress.draft) state.sqlProgress.draft = {};
+    state.sqlProgress.draft[state.sqlProgress.activeExercise] = input.value;
+  });
+  runBtn.onclick = runQuery;
+
+  function runQuery(){
+    const sql = input.value.trim();
+    const msgEl = document.getElementById('result-msg');
+    const tableEl = document.getElementById('result-table');
+    if(!sql){ msgEl.textContent='Write a query first.'; msgEl.className='result-msg err'; return; }
+    window.__lastUserSQL = sql;
+    try{
+      const execResult = state.db.exec(sql);
+      const {columns, rows} = execToRows(execResult);
+      if(columns.length>0){
+        let html = '<table class="res-table"><thead><tr>' + columns.map(c=>`<th>${escapeHtml(c)}</th>`).join('') + '</tr></thead><tbody>';
+        rows.forEach(r=>{ html += '<tr>' + r.map(v=>`<td>${escapeHtml(String(v))}</td>`).join('') + '</tr>'; });
+        html += '</tbody></table>';
+        tableEl.innerHTML = html;
+      } else {
+        tableEl.innerHTML = '';
+      }
+
+      const ex = SQL_EXERCISES[state.sqlProgress.activeExercise];
+      const passed = ex.check(state.db);
+      if(passed){
+        msgEl.textContent = '✓ Correct — this matches what the exercise is checking for.';
+        msgEl.className = 'result-msg ok';
+        state.sqlProgress.completed.add(state.sqlProgress.activeExercise);
+        renderSidebar();
+      } else {
+        msgEl.textContent = columns.length>0
+          ? 'Query ran, but the result doesn\'t match what this exercise is checking for yet. Try again.'
+          : 'Query ran with no rows returned — check the hint if you\'re stuck.';
+        msgEl.className = 'result-msg err';
+      }
+    }catch(err){
+      tableEl.innerHTML = '';
+      msgEl.textContent = 'SQL error: ' + err.message;
+      msgEl.className = 'result-msg err';
+    }
+  }
+}
+
+/* =========================================================================
+   INIT
+   ========================================================================= */
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function renderAll(){
+  renderSidebar();
+  renderMain();
+}
+
+document.getElementById('reset-btn').onclick = ()=>{
+  MODULES.forEach(m=>{
+    if(m.kind==='quiz'){ state.quizProgress[m.id] = { answered:new Set(), correct:new Set() }; state.quizStarted[m.id]=false; }
+  });
+  state.sqlProgress.completed = new Set();
+  state.sqlProgress.draft = {};
+  if(state.db){
+    state.db.close();
+    initDb();
+  }
+  renderAll();
+};
+
+function initDb(){
+  const SQL_ = window.__SQLLIB;
+  state.db = new SQL_.Database();
+  state.db.run(SCHEMA_SQL);
+}
+
+renderAll();
+
+initSqlJs({ locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/${file}` })
+  .then(SQL_=>{
+    window.__SQLLIB = SQL_;
+    initDb();
+    state.sqlReady = true;
+    if(state.active==='m2') renderMain();
+    renderSidebar();
+  })
+  .catch(err=>{
+    console.error('sql.js failed to load', err);
+    if(state.active==='m2'){
+      document.getElementById('main').innerHTML = `<div class="eyebrow">Module 02</div><h1>SQL Console</h1><div class="callout">The in-browser SQL engine failed to load (likely a network/CDN issue): ${escapeHtml(err.message||String(err))}. Try refreshing.</div>`;
+    }
+  });
+</script>
+</body>
+</html>
