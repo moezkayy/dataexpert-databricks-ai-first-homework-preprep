@@ -159,15 +159,6 @@ Deployed as a static site on **Vercel** — no framework, no build command, just
 - **IBM Plex Mono / IBM Plex Sans** — typography
 - **Vercel** — hosting
 
----
-
-## 🗺 Roadmap
-
-- [ ] Add a real Python sandbox (Pyodide) for module 03
-- [ ] Add a bonus module for React + FastAPI end-to-end wiring
-- [ ] Optional: persist progress via `localStorage` for return visits
-
----
 
 ## 👤 About
 
