@@ -85,6 +85,82 @@ Deployed as a static site on **Vercel** — no framework, no build command, just
 
 ---
 
+## 🏗 Building the actual Databricks app
+
+This platform gets you the prerequisites — it isn't the homework itself. Once you've worked through modules 01–09, here's the real build sequence in Databricks:
+
+1. **Create your Lakebase database** — in the Databricks workspace, go to **Lakebase** → create a **Project**, then a **Branch** (this is your working copy of the database), then note its connection details.
+2. **Connect once with `psql`** to sanity-check access, then run your `CREATE TABLE` statements for `tickets` and `ticket_messages` directly — the same schema taught in Module 01/02 of this platform.
+3. **Seed it** with at least 3 tickets, 2+ messages per ticket, and 2+ distinct statuses.
+4. **Scaffold a Databricks App**: `databricks apps init` (or via the UI) — pick a template (Streamlit is fastest for this scope).
+5. **Attach your Lakebase database as a resource** to the app. This is the step that auto-provisions a service principal, a Postgres role, and injects `PGHOST`/`PGUSER`/etc. as environment variables — no manual credential wiring needed.
+6. **Write the CRUD logic**: list tickets, view a ticket's messages, create a ticket, add a message, update a ticket's status — all reading/writing Lakebase, never hardcoded data.
+7. **Test locally** with `databricks apps run-local` against the real Lakebase instance before deploying.
+8. **Deploy** with `databricks apps deploy`, then verify in the live app: existing data loads, a new ticket persists, a message persists, a status update persists — all surviving a page refresh.
+
+
+---
+
+## 👤 About
+
+Built by **Moez Khan** — Data Engineer
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-moezkayy-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/moezkayy)
+[![GitHub](https://img.shields.io/badge/GitHub-moezkayy-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/moezkayy)
+
+---
+
+## 📄 License
+
+MIT — do whatever you want with it, including using it to actually study.
+
+<div align="center">
+<sub>Built as bootcamp prep, not a bootcamp submission.</sub>
+</div>| 09 | **Databricks & Lakebase** | OLTP vs OLAP, project/branch hierarchy, service principals, OAuth tokens |
+
+Progress is tracked per-module in the sidebar (○ not started · ◐ in progress · ● done) with an overall completion bar — all in-memory for the session, nothing leaves your browser.
+
+---
+
+## ✨ Features
+
+- 📚 **Lesson-first design** — every module opens with a real explanation (worked examples, comparison tables, diagrams) before any question is asked
+- 🖥️ **A genuine SQL sandbox** — not multiple-choice SQL, actual query execution against a live database seeded with the assignment's exact schema
+- ✅ **Instant, meaningful feedback** — answers are checked against real query results, not string matching
+- 🎯 **Zero setup** — one HTML file, no build step, no dependencies to install
+- 🌓 **Console-styled UI** — dark, monospace-forward design that matches the tooling (Postgres, terminals, query consoles) it's teaching
+
+---
+
+## 🛠 Running it locally
+
+No build step, no `npm install` — it's a single static file.
+
+```bash
+git clone https://github.com/moezkayy/dataexpert-lakebase-prep.git
+cd dataexpert-lakebase-prep
+open index.html   # or just double-click it / drag into a browser
+```
+
+That's it. The SQL engine loads from a CDN on first run, so you'll need an internet connection for that one asset.
+
+---
+
+## ☁️ Deployment
+
+Deployed as a static site on **Vercel** — no framework, no build command, just the raw file served as-is. Pushes to `main` auto-deploy.
+
+---
+
+## 🧱 Tech stack
+
+- **Vanilla HTML / CSS / JS** — no framework, no bundler
+- **[sql.js](https://sql.js.org/)** — SQLite compiled to WebAssembly, for the in-browser SQL console
+- **IBM Plex Mono / IBM Plex Sans** — typography
+- **Vercel** — hosting
+
+---
+
 ## 🗺 Roadmap
 
 - [ ] Add a real Python sandbox (Pyodide) for module 03
