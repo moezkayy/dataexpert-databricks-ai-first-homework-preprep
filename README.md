@@ -44,7 +44,7 @@ This platform gets you the prerequisites — it isn't the homework itself. Once 
 
 ---
 
-## 🗂 What's inside
+## 🗂 What's inside this platform
 
 | # | Module | Covers |
 |---|--------|--------|
@@ -62,76 +62,6 @@ Progress is tracked per-module in the sidebar (○ not started · ◐ in progres
 
 ---
 
-## ✨ Features
-
-- 📚 **Lesson-first design** — every module opens with a real explanation (worked examples, comparison tables, diagrams) before any question is asked
-- 🖥️ **A genuine SQL sandbox** — not multiple-choice SQL, actual query execution against a live database seeded with the assignment's exact schema
-- ✅ **Instant, meaningful feedback** — answers are checked against real query results, not string matching
-- 🎯 **Zero setup** — one HTML file, no build step, no dependencies to install
-- 🌓 **Console-styled UI** — dark, monospace-forward design that matches the tooling (Postgres, terminals, query consoles) it's teaching
-
----
-
-## 🛠 Running it locally
-
-No build step, no `npm install` — it's a single static file.
-
-```bash
-git clone https://github.com/moezkayy/dataexpert-lakebase-prep.git
-cd dataexpert-lakebase-prep
-open index.html   # or just double-click it / drag into a browser
-```
-
-That's it. The SQL engine loads from a CDN on first run, so you'll need an internet connection for that one asset.
-
----
-
-## ☁️ Deployment
-
-Deployed as a static site on **Vercel** — no framework, no build command, just the raw file served as-is. Pushes to `main` auto-deploy.
-
----
-
-## 🧱 Tech stack
-
-- **Vanilla HTML / CSS / JS** — no framework, no bundler
-- **[sql.js](https://sql.js.org/)** — SQLite compiled to WebAssembly, for the in-browser SQL console
-- **IBM Plex Mono / IBM Plex Sans** — typography
-- **Vercel** — hosting
-
----
-
-
-## 👤 About
-
-Built by **Moez Khan** — Data Engineer
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-moezkayy-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/moezkayy)
-[![GitHub](https://img.shields.io/badge/GitHub-moezkayy-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/moezkayy)
-
----
-
-## 📄 License
-
-MIT — do whatever you want with it, including using it to actually study.
-
-<div align="center">
-<sub>Built as bootcamp prep, not a bootcamp submission.</sub>
-</div>| 09 | **Databricks & Lakebase** | OLTP vs OLAP, project/branch hierarchy, service principals, OAuth tokens |
-
-Progress is tracked per-module in the sidebar (○ not started · ◐ in progress · ● done) with an overall completion bar — all in-memory for the session, nothing leaves your browser.
-
----
-
-## ✨ Features
-
-- 📚 **Lesson-first design** — every module opens with a real explanation (worked examples, comparison tables, diagrams) before any question is asked
-- 🖥️ **A genuine SQL sandbox** — not multiple-choice SQL, actual query execution against a live database seeded with the assignment's exact schema
-- ✅ **Instant, meaningful feedback** — answers are checked against real query results, not string matching
-- 🎯 **Zero setup** — one HTML file, no build step, no dependencies to install
-- 🌓 **Console-styled UI** — dark, monospace-forward design that matches the tooling (Postgres, terminals, query consoles) it's teaching
-
----
 
 ## 🛠 Running it locally
 
