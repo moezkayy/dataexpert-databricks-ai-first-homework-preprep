@@ -28,6 +28,22 @@ The centerpiece is a real, working SQL console — not a simulation. It runs an 
 
 ---
 
+## 🏗 Building the actual Databricks app
+
+This platform gets you the prerequisites — it isn't the homework itself. Once you've worked through modules 01–09, here's the real build sequence in Databricks:
+
+1. **Create your Lakebase database** — in the Databricks workspace, go to **Lakebase** → create a **Project**, then a **Branch** (this is your working copy of the database), then note its connection details.
+2. **Connect once with `psql`** to sanity-check access, then run your `CREATE TABLE` statements for `tickets` and `ticket_messages` directly — the same schema taught in Module 01/02 of this platform.
+3. **Seed it** with at least 3 tickets, 2+ messages per ticket, and 2+ distinct statuses.
+4. **Scaffold a Databricks App**: `databricks apps init` (or via the UI) — pick a template (Streamlit is fastest for this scope).
+5. **Attach your Lakebase database as a resource** to the app. This is the step that auto-provisions a service principal, a Postgres role, and injects `PGHOST`/`PGUSER`/etc. as environment variables — no manual credential wiring needed.
+6. **Write the CRUD logic**: list tickets, view a ticket's messages, create a ticket, add a message, update a ticket's status — all reading/writing Lakebase, never hardcoded data.
+7. **Test locally** with `databricks apps run-local` against the real Lakebase instance before deploying.
+8. **Deploy** with `databricks apps deploy`, then verify in the live app: existing data loads, a new ticket persists, a message persists, a status update persists — all surviving a page refresh.
+
+
+---
+
 ## 🗂 What's inside
 
 | # | Module | Covers |
@@ -85,21 +101,6 @@ Deployed as a static site on **Vercel** — no framework, no build command, just
 
 ---
 
-## 🏗 Building the actual Databricks app
-
-This platform gets you the prerequisites — it isn't the homework itself. Once you've worked through modules 01–09, here's the real build sequence in Databricks:
-
-1. **Create your Lakebase database** — in the Databricks workspace, go to **Lakebase** → create a **Project**, then a **Branch** (this is your working copy of the database), then note its connection details.
-2. **Connect once with `psql`** to sanity-check access, then run your `CREATE TABLE` statements for `tickets` and `ticket_messages` directly — the same schema taught in Module 01/02 of this platform.
-3. **Seed it** with at least 3 tickets, 2+ messages per ticket, and 2+ distinct statuses.
-4. **Scaffold a Databricks App**: `databricks apps init` (or via the UI) — pick a template (Streamlit is fastest for this scope).
-5. **Attach your Lakebase database as a resource** to the app. This is the step that auto-provisions a service principal, a Postgres role, and injects `PGHOST`/`PGUSER`/etc. as environment variables — no manual credential wiring needed.
-6. **Write the CRUD logic**: list tickets, view a ticket's messages, create a ticket, add a message, update a ticket's status — all reading/writing Lakebase, never hardcoded data.
-7. **Test locally** with `databricks apps run-local` against the real Lakebase instance before deploying.
-8. **Deploy** with `databricks apps deploy`, then verify in the live app: existing data loads, a new ticket persists, a message persists, a status update persists — all surviving a page refresh.
-
-
----
 
 ## 👤 About
 
