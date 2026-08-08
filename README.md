@@ -95,7 +95,7 @@ Deployed as a static site on **Vercel** — no framework, no build command, just
 
 ## 👤 About
 
-Built by **Moez Khan** — Data Engineering Intern, working through the Databricks AI Bootcamp's Lakebase-powered ticketing app assignment.
+Built by **Moez Khan** — Data Engineer
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-moezkayy-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/moezkayy)
 [![GitHub](https://img.shields.io/badge/GitHub-moezkayy-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/moezkayy)
